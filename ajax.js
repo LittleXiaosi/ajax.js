@@ -3,12 +3,17 @@
  * */
 
 (function() {
+    var DEFAULT = {
+        action: '/H5Event/AppQd/work/action/',
+        type: 'get'
+    }
+
 
     function AJAX(obj) {
         var that = this;
         that.argu = {
-            type: 'GET',
-            url: window.location.origin + '/H5Event/AppQd/work/action/',
+            type: DEFAULT.type,
+            url: window.location.origin + DEFAULT.action,
             action: "",
             data: {
                 //signIn: ''
@@ -22,7 +27,6 @@
         }
         that.http_request = false;
 
-        console.log(that.argu.action + 'ajax1');
         that.init();
     }
 
@@ -31,8 +35,6 @@
         //初始化当前请求
         init: function() {
             var that = this;
-
-            console.log(that.argu.action + 'ajax2');
 
             if (window.XMLHttpRequest) { // Mozilla, Safari,...
                 that.http_request = new XMLHttpRequest();
@@ -55,7 +57,6 @@
                 return false;
             }
 
-            console.log(that.argu.action + 'ajax3');
             that.http_request.onreadystatechange = function() {
                 that.consoleContents();
             };
@@ -69,6 +70,7 @@
                 console.log(that.argu.key + '=' + that.getJsonData(that.argu.data));
                 that.http_request.send(that.argu.key + '=' + encodeURIComponent(that.getJsonData(that.argu.data)));
             }
+            return that.http_request;
         },
         //get请求拼合参数与请求地址
         getUrlData: function() {
@@ -77,7 +79,7 @@
             var url = that.argu.url;
             var data = [];
             for (var key in that.argu.data) {
-                if(that.argu.data[key]) {
+                if (that.argu.data[key]) {
                     var value = that.argu.data[key];
                     data.push(key + '=' + encodeURIComponent(value));
                 }
